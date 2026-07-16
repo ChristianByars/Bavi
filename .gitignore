@@ -1,0 +1,20 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+
+# Earth2 forecast outputs & env
+.venv/
+outputs/
+figures/
+*.zarr
+*.pt
+*.nc
+.ipynb_checkpoints/
+cufile.log
