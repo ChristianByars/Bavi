@@ -6,7 +6,7 @@ readme = "README.md"
 requires-python = "==3.12.*"
 dependencies = [
     "earth2studio[data,sfno,fcn,graphcast,aifs2,cyclone]",
-    "torch>=2.4.0",
+    "torch>=2.13.0",
     "torch-harmonics>=0.8.0",
     "xarray>=2024.1.0",
     "zarr>=2.18.0",
@@ -19,9 +19,10 @@ dependencies = [
     "scipy>=1.10.0",
     "pandas>=2.0.0",
     "tqdm>=4.60.0",
+    "ninja>=1.13.0",
     "nvidia-ml-py",
-    "cupy-cuda12x>=14.0.0",   # cyclone tracker (cucim/cupy) — cu12 matches pod CUDA 12.4
-    "cucim-cu12>=26.4.0",
+    "cupy-cuda13x>=14.0.0",   # cyclone tracker (cucim/cupy) — pod now has CUDA 13.2 runtime libs
+    "cucim-cu13>=25.4.0",
     "pytest>=9.0.0",          # cupy.testing import guard (earth2-fixes #3)
     "flash-attn==2.8.3",
 ]
@@ -31,30 +32,28 @@ dev = ["ipykernel>=7.1.0", "jupyter", "nbconvert"]
 
 [tool.uv.sources]
 earth2studio = { git = "https://github.com/NVIDIA/earth2studio.git", rev = "main" }
-torch = { index = "pytorch-cu124" }
-# Reuse prebuilt wheels (built against the local cu124 torch ABI) to skip slow source builds.
+torch = { index = "pytorch-cu132" }
+# Reuse prebuilt wheels (built against the local cu132 torch ABI) to skip slow source builds.
 flash-attn = { path = "/home/jovyan/wheels/flash_attn-2.8.3-cp312-cp312-linux_x86_64.whl" }
 torch-harmonics = { path = "/home/jovyan/wheels/torch_harmonics-0.8.1-cp312-cp312-linux_x86_64.whl" }
 
 [tool.uv]
-# torch-harmonics/warp: ABI-safe pins. cu13 cupy/cucim excluded (earth2-fixes #1); pod is CUDA 12.4.
+# torch-harmonics/warp: ABI-safe pins. pod has CUDA 13.2 toolkit + runtime libs (earth2-fixes #1 resolved).
 override-dependencies = [
     "torch-harmonics==0.8.1",
     "warp-lang<1.13",
-    "cucim-cu13 ; python_version < '0'",
-    "cupy-cuda13x ; python_version < '0'",
 ]
 index-strategy = "unsafe-best-match"
 # Safety net if a wheel is ever rebuilt from source: build against the installed torch.
 no-build-isolation-package = ["torch-harmonics", "flash-attn"]
 
 [tool.uv.extra-build-dependencies]
-flash-attn = ["torch"]
+flash-attn = ["torch", "packaging", "ninja"]
 torch-harmonics = ["torch"]
 
 [[tool.uv.index]]
-name = "pytorch-cu124"
-url = "https://download.pytorch.org/whl/cu124"
+name = "pytorch-cu132"
+url = "https://download.pytorch.org/whl/cu132"
 explicit = true
 
 [[tool.uv.index]]
