@@ -46,7 +46,8 @@ def load_best_track(
             partial = csv_path.with_name(csv_path.name + ".part")
             urlretrieve(url, partial)
             partial.replace(csv_path)  # an interrupted download never looks like a complete cached file
-    # Row 1 holds units. Missing values are one blank; "NA" is the North Atlantic basin code, not a gap.
+    # Row 1 holds units. IBTrACS writes a missing value as one blank, so only blanks count as missing
+    # (pandas' default NA strings such as "NA" or "NULL" are not IBTrACS conventions).
     df = pd.read_csv(
         csv_path, skiprows=[1], usecols=_COLUMNS, keep_default_na=False, na_values=["", " "], low_memory=False
     )

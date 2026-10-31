@@ -38,6 +38,13 @@ def test_load_best_track_filters_storm_and_synoptic_times(tmp_path):
     assert list(best.columns) == ["valid_time", "lat", "lon", "mslp_hpa"]
 
 
+def test_load_best_track_prefers_usa_pressure_when_both_agencies_report(tmp_path):
+    rows = ["2026182N09163,2026,WP,BAVI,2026-07-07 00:00:00,16.2,139.9,940,PROVISIONAL,934"]  # WMO 940, USA 934
+    path = tmp_path / "ibtracs.csv"
+    path.write_text(_csv(rows))
+    assert ibtracs.load_best_track("Bavi", 2026, csv_path=path)["mslp_hpa"].tolist() == [934.0]
+
+
 def test_load_best_track_unknown_storm_raises(tmp_path):
     path = tmp_path / "ibtracs.csv"
     path.write_text(CSV)
