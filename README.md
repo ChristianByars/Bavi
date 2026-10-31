@@ -6,7 +6,7 @@ A 120-hour, 6-hourly forecast of Super Typhoon Bavi from the ECMWF IFS operation
 
 ## Results at a glance
 
-The SFNO track (Wu–Duan tracker) is scored against the IBTrACS best track. IBTrACS positions and pressures are agency analyses, and the tracker defines the storm center differently, so some position error is definitional. Precipitation and wind from AIFS2 and GraphCast are shown as forecast products and are not scored. For 2026 storms IBTrACS still holds provisional tracks, which can change when the agencies release their final best tracks. The forecast ends 120 h after initialization; if Bavi's observed closest approach to Wenzhou comes later than that, the timing error is limited by the forecast length (compare the last two columns of the second table).
+The SFNO track (Wu–Duan tracker) is scored against the IBTrACS best track. IBTrACS positions and pressures are agency analyses, and the tracker defines the storm center differently, so some position error is definitional. Precipitation and wind from AIFS2 and GraphCast are shown as forecast products and are not scored. For 2026 storms IBTrACS still holds provisional tracks, which can change when the agencies release their final best tracks. The observed best track passes closest to Wenzhou after the forecast ends. So in the second table the forecast is compared with the best track inside the same forecast window ("Observed closest approach, forecast window (km)" and "Observed time, forecast window (UTC)"); "Observed time, full best track (UTC)" can only be read against "Last forecast fix (UTC)"; and "Timing error (h)" is reported as n/a when the forecast length censors it.
 
 **Track and intensity error by lead time**
 
@@ -27,7 +27,7 @@ _SFNO / Wu–Duan intensity: minimum sea-level pressure (inverted axis) and maxi
 _Storm-total precipitation over the 120 h forecast, AIFS2 (left) and GraphCast (right): red is light rain, blue-purple is heavy rain._
 
 ![AIFS2 and GraphCast peak 10 m wind maps for Bavi](docs/images/bavi_wind_peak.png)
-_Highest 10 m wind at each point over the forecast (km/h), AIFS2 and GraphCast._
+_Highest 10 m wind at each point over the forecast, including the initial analysis (km/h), AIFS2 and GraphCast._
 
 ![AIFS2 and GraphCast 10 m wind maps at the expected landfall time](docs/images/bavi_wind_landfall.png)
 _10 m wind at the expected landfall time set in the notebook (2026-07-11 00 UTC), AIFS2 and GraphCast._
@@ -43,7 +43,7 @@ _10 m wind at the expected landfall time set in the notebook (2026-07-11 00 UTC)
 
 ## Quick start
 
-Requires Python 3.12, [uv](https://docs.astral.sh/uv/), and an NVIDIA GPU with 46 GB+ of VRAM.
+Requires Python 3.12, [uv](https://docs.astral.sh/uv/), and an NVIDIA GPU with about 48 GB of VRAM (developed and tested on an L40).
 
 ```bash
 git clone https://github.com/ChristianByars/Bavi.git
@@ -51,6 +51,8 @@ cd Bavi
 uv sync
 uv run python -m ipykernel install --user --name bavi --display-name "bavi"
 ```
+
+`uv sync` expects two prebuilt wheels (flash-attn and torch-harmonics) in a `wheels/` folder; see [docs/environment.md](docs/environment.md).
 
 Open a notebook in JupyterLab and select the **bavi** kernel, then run all cells.
 
