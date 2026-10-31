@@ -3,7 +3,7 @@ __pycache__/
 *.py[oc]
 build/
 dist/
-wheels/
+wheels
 *.egg-info
 
 # Virtual environments
@@ -23,4 +23,4 @@ cufile.log
 .run/
 *.pre-cleanup/
 *.failed-*/
-wheels/
+wheels
