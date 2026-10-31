@@ -18,3 +18,9 @@ figures/
 *.nc
 .ipynb_checkpoints/
 cufile.log
+
+# Executor scratch, renamed pre-cleanup outputs, and failed-run outputs
+.run/
+*.pre-cleanup/
+*.failed-*/
+wheels/
