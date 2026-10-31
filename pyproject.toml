@@ -1,50 +1,41 @@
 [project]
 name = "bavi"
 version = "0.1.0"
-description = "Real-time Super Typhoon Bavi forecast (track + precip + wind) with NVIDIA Earth2Studio"
+description = "Super Typhoon Bavi (July 2026): AI-model track, wind and precipitation forecast with NVIDIA Earth2Studio, verified against IBTrACS"
 readme = "README.md"
 requires-python = "==3.12.*"
+authors = [{ name = "Christian Byars" }]
 dependencies = [
-    "earth2studio[data,sfno,fcn,graphcast,aifs2,cyclone]",
-    "torch>=2.13.0",
-    "torch-harmonics>=0.8.0",
-    "xarray>=2024.1.0",
-    "zarr>=2.18.0",
-    "gcsfs>=2024.1.0",
-    "h5py>=3.11.0",
-    "netcdf4>=1.6.0",
-    "matplotlib>=3.8.1",
+    "earth2studio[aifs2,cyclone,data,graphcast,sfno]==0.20.0",
+    "torch==2.13.0",
     "cartopy>=0.22.0",
-    "numpy>=1.22.4",
-    "scipy>=1.10.0",
-    "pandas>=2.0.0",
-    "tqdm>=4.60.0",
-    "ninja>=1.13.0",
+    "gcsfs>=2024.1.0",
+    "makani",  # not on PyPI: resolved from [tool.uv.sources] (earth2studio[sfno] needs it; uv ignores a dependency's sources)
+    "matplotlib>=3.8.1",
+    "numpy>=1.26",
     "nvidia-ml-py",
-    "cupy-cuda13x>=14.0.0",   # cyclone tracker (cucim/cupy) — pod now has CUDA 13.2 runtime libs
-    "cucim-cu13>=25.4.0",
-    "pytest>=9.0.0",          # cupy.testing import guard (earth2-fixes #3)
-    "flash-attn==2.8.3",
+    "pandas>=2.0.0",
+    "pytest>=9.0.3",  # cupy.testing import guard: importing cupy without pytest crashes
+    "scipy>=1.10.0",
+    "tqdm>=4.65.0",  # the notebook imports tqdm directly (progress bars in the tracker loops)
+    "weathernext",  # not on PyPI: resolved from [tool.uv.sources] (earth2studio[graphcast] needs it; uv ignores a dependency's sources)
+    "xarray>=2024.10.0",
+    "zarr>=2.18.0",
 ]
 
 [dependency-groups]
-dev = ["ipykernel>=7.1.0", "jupyter", "nbconvert"]
+dev = ["ipykernel>=7.1.0", "nbconvert>=7.16.0"]
 
 [tool.uv.sources]
-earth2studio = { git = "https://github.com/NVIDIA/earth2studio.git", rev = "main" }
 torch = { index = "pytorch-cu132" }
-# Reuse prebuilt wheels (built against the local cu132 torch ABI) to skip slow source builds.
-flash-attn = { path = "/home/jovyan/wheels/flash_attn-2.8.3-cp312-cp312-linux_x86_64.whl" }
-torch-harmonics = { path = "/home/jovyan/wheels/torch_harmonics-0.8.1-cp312-cp312-linux_x86_64.whl" }
+makani = { git = "https://github.com/NVIDIA/makani.git", rev = "b38fcb2799d7dbc146fa60459f3f9823394a8bf1" }  # same pin as earth2studio 0.20.0
+weathernext = { git = "https://github.com/google-deepmind/weathernext.git", rev = "9c034db1ff412d5db6cbe6bb0c5c9afc5a267719" }  # same pin as earth2studio 0.20.0
+flash-attn = { path = "wheels/flash_attn-2.8.3-cp312-cp312-linux_x86_64.whl" }
+torch-harmonics = { path = "wheels/torch_harmonics-0.8.1-cp312-cp312-linux_x86_64.whl" }
 
 [tool.uv]
-# torch-harmonics/warp: ABI-safe pins. pod has CUDA 13.2 toolkit + runtime libs (earth2-fixes #1 resolved).
-override-dependencies = [
-    "torch-harmonics==0.8.1",
-    "warp-lang<1.13",
-]
 index-strategy = "unsafe-best-match"
-# Safety net if a wheel is ever rebuilt from source: build against the installed torch.
+override-dependencies = ["torch-harmonics==0.8.1", "flash-attn==2.8.3"]
 no-build-isolation-package = ["torch-harmonics", "flash-attn"]
 
 [tool.uv.extra-build-dependencies]
@@ -59,3 +50,7 @@ explicit = true
 [[tool.uv.index]]
 url = "https://pypi.nvidia.com"
 priority = "supplemental"
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
