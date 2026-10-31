@@ -52,7 +52,7 @@ uv sync
 uv run python -m ipykernel install --user --name bavi --display-name "bavi"
 ```
 
-`uv sync` expects two prebuilt wheels (flash-attn and torch-harmonics) in a `wheels/` folder; see [docs/environment.md](docs/environment.md).
+`uv sync` expects two prebuilt wheels (flash-attn and torch-harmonics) in a git-ignored `wheels/` folder at the repository root; see [docs/environment.md](docs/environment.md).
 
 Open a notebook in JupyterLab and select the **bavi** kernel, then run all cells.
 
