@@ -1,4 +1,4 @@
-# templates/tests/test_metrics.py
+# Unit tests for metrics.py
 import math
 import warnings
 

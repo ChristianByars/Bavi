@@ -1,6 +1,6 @@
 """Forecast-skill metrics (NumPy only).
 
-The same file is copied into every tutorial repo so each repo stays self-contained.
+This file needs nothing beyond NumPy, so it can be copied into another project as is.
 Gridded fields have shape (..., lat, lon); `lat` is a 1-D array in degrees.
 Area statistics are cos(latitude)-weighted and ignore NaNs.
 """
