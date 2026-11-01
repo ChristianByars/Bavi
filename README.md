@@ -11,26 +11,33 @@ The SFNO track (Wu–Duan tracker) is scored against the IBTrACS best track. IBT
 **Track and intensity error by lead time**
 
 <!-- bavi_track_metrics:START -->
-_Filled in after the verified run._
+| Lead (h) | Position error (km) | MSLP error (hPa) |
+|---|---|---|
+| 0 | 18 | 24.2 |
+| 12 | 21 | 21.9 |
+| 24 | 61 | 24.6 |
+| 36 | 56 | 29.2 |
+| 48 | 69 | 19.1 |
+| 60 | 34 | 5.3 |
+| 72 | 117 | -2.1 |
+| 84 | 174 | -8.7 |
+| 96 | 253 | 0.4 |
+| 108 | 315 | 13.9 |
+| 120 | 258 | 25.8 |
 <!-- bavi_track_metrics:END -->
 
 **Closest approach to Wenzhou**
 
 <!-- bavi_landfall_metrics:START -->
-_Filled in after the verified run._
+| Forecast closest approach (km) | Observed closest approach, forecast window (km) | Forecast time (UTC) | Observed time, forecast window (UTC) | Last forecast fix (UTC) | Observed closest approach, full best track (km) | Observed time, full best track (UTC) | Timing error (h) |
+|---|---|---|---|---|---|---|---|
+| 201 | 117 | 2026-07-11 06:00 | 2026-07-11 12:00 | 2026-07-11 12:00 | 83 | 2026-07-11 18:00 | -12 |
 <!-- bavi_landfall_metrics:END -->
-
-![SFNO forecast minimum sea-level pressure and maximum 10 m wind of Bavi by lead time](docs/images/bavi_intensity.png)
-_SFNO / Wu–Duan intensity: minimum sea-level pressure (inverted axis) and maximum 10 m wind along the forecast track._
 
 ![AIFS2 and GraphCast storm-total precipitation maps for Bavi](docs/images/bavi_precip_total.png)
 _Storm-total precipitation over the 120 h forecast, AIFS2 (left) and GraphCast (right): red is light rain, blue-purple is heavy rain._
 
-![AIFS2 and GraphCast peak 10 m wind maps for Bavi](docs/images/bavi_wind_peak.png)
-_Highest 10 m wind at each point over the forecast, including the initial analysis (km/h), AIFS2 and GraphCast._
-
-![AIFS2 and GraphCast 10 m wind maps at the expected landfall time](docs/images/bavi_wind_landfall.png)
-_10 m wind at the expected landfall time set in the notebook (2026-07-11 00 UTC), AIFS2 and GraphCast._
+The notebook also plots the SFNO intensity along the track, daily rain, and AIFS2 and GraphCast 10 m wind at the peak and at the expected landfall time (2026-07-11 00 UTC).
 
 ## Models and data
 
@@ -43,7 +50,7 @@ _10 m wind at the expected landfall time set in the notebook (2026-07-11 00 UTC)
 
 ## Quick start
 
-Requires Python 3.12, [uv](https://docs.astral.sh/uv/), and an NVIDIA GPU with about 48 GB of VRAM (developed and tested on an L40).
+Requires Python 3.12, [uv](https://docs.astral.sh/uv/), and an NVIDIA GPU (developed and tested on an L40 with 48 GB; the table under *Notebooks* lists each notebook's peak GPU memory).
 
 ```bash
 git clone https://github.com/ChristianByars/Bavi.git
@@ -59,7 +66,9 @@ Open a notebook in JupyterLab and select the **bavi** kernel, then run all cells
 ## Notebooks
 
 <!-- RUNS:START -->
-_Runtime and GPU memory are filled in after the verified run._
+| Notebook | Runtime | Peak GPU memory (GiB) |
+|---|---|---|
+| bavi_forecast.ipynb | 10 min | 36.9 |
 <!-- RUNS:END -->
 
 | Notebook | What it does |

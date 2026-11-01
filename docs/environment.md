@@ -1,6 +1,6 @@
 # Environment notes
 
-Tested in October 2026 on one NVIDIA L40 (48 GB), Python 3.12, with a CUDA 13 driver.
+Tested on 31 October – 1 November 2026 on one NVIDIA L40 (48 GB), Python 3.12, with a CUDA 13 driver.
 
 ## Pinned stack
 
